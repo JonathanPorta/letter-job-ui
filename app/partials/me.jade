@@ -1,0 +1,12 @@
+h1 Welcome {{ user.name() }}
+hr
+  
+p(ng-if="jobsToDoCount > 0")
+  p You have {{ jobsToDoCount }} job<span ng-if="jobsToDoCount != 1">s</span> todo!
+    p
+      md-button.md-button.md-raised.md-primary(href='#/jobs/{{ firstJobId }}/tasks/{{ firstTaskId }}') Yay! Let's do it!
+
+p(ng-if="jobsToDoCount == 0")
+  p All done! No jobs for today. Come back later.
+
+uiview

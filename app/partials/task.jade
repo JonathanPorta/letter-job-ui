@@ -1,0 +1,6 @@
+.task
+  md-content.page-container
+    md-card.page(ng-bind-html="description")
+
+  md-button.md-button.md-primary(href='#/jobs/{{ jobId }}/tasks/{{ taskId }}/verify') I'm done
+ui-view

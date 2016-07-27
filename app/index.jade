@@ -1,0 +1,33 @@
+doctype html(lang='en')
+head
+  title Letter Job
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='description', content='')
+  meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
+  link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+  link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic')
+  link(rel='stylesheet', href='/app/stylesheets/vendor.css')
+  link(rel='stylesheet', href='/app/stylesheets/application.css')
+  style(type='text/css').
+    /**
+    * Hide when Angular is not yet loaded and initialized
+    */
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+    }
+
+  body(ng-app='letter-job', ng-cloak='')
+    .container
+      div(layout="row", layout-align="center center")
+        div(ui-view='') Loading...
+
+    hr
+    pre
+      |$state = {{$state.current.name}}
+      |$stateParams = {{$stateParams}}
+      |$state full url = {{ $state.$current.url.source }}
+
+    // Leave at end of body
+    script(src='/app/javascripts/vendor.js')
+    script(src='/app/javascripts/application.js')
