@@ -11,14 +11,25 @@ module.exports = class JobModel extends Backbone.Model
 
     @tasks = new TasksCollection [], job: @
 
+    @loaded = @isLoaded()
+    @on 'all', ->
+      @loaded = @isLoaded()
+
+  isLoaded: ->
+    # Consider a job loaded if they have an id
+    # toDO: should listen to tasks collection
+    @attributes.id?
+
   isComplete: ->
     !@tasks.some (task) ->
-      console.log "!@tasks.some (task) -> ", task
       !task.isComplete()
+
+  incompleteTasks: -> @tasks.filter (task) -> !task.isComplete()
+  completeTasks: -> @tasks.filter (task) -> task.isComplete()
 
   progress: ->
     return 0 if @tasks.length == 0
-    complete = @tasks.filter (task) -> task.isComplete()
+    complete = @completeTasks()
     Math.floor(complete.length / @tasks.length)
 
   nextTask: ->

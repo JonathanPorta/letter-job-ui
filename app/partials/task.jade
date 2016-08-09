@@ -1,6 +1,13 @@
-.task
-  md-content.page-container
-    md-card.page(ng-bind-html="description")
+section
+  //- md-toolbar.md-warn
+  //-   .md-toolbar-tools
+  //-     h2 {{ title }}
+  md-content(layout-padding) {{ description }}
 
-  md-button.md-button.md-primary(href='#/jobs/{{ jobId }}/tasks/{{ taskId }}/verify') I'm done
+section.task
+  md-content(layout-padding)
+    md-card.page(ng-bind-html="content")
+
+section(layout="row", layout-align="center center")
+  md-button.md-button.md-raised.md-primary(href='#/jobs/{{ jobId }}/tasks/{{ taskId }}/verify') I'm done
 ui-view

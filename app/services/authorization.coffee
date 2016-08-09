@@ -9,12 +9,13 @@ class AuthorizationService
 
   isAuthorizedFor: (state, params)->
     console.log 'isAuthorizedFor: (state, params)->', arguments
+    # If authentication isn't set or roles isn't set, then let them access the
+    # state because obviously no one cares enough to set the correct authorization attributes.
+    return true if (!state.authentication? || !state.roles?) || !state.authentication
+    console.log 'Made it past', '!state.authentication? || !state.roles? || !state.authentication'
     @UsersService.login().finally =>
       console.log '@UsersService.login().done ->', arguments
-      # If authentication isn't set or roles isn't set, then let them access the
-      # state because obviously no one cares enough to set the correct authorization attributes.
-      return true if (!state.authentication? || !state.roles?) || !state.authentication
-      console.log 'Made it past', '!state.authentication? || !state.roles? || !state.authentication'
+
       # If the state requires authentication and the user is not authorized for any of this state's roles,
       # make sure they are logged in. if so, they are not authorized.
       # otherwise, bounce them to login screen.
@@ -38,7 +39,7 @@ class AuthorizationService
 
         # // now, send them to the signin state
         # // so they can log in
-        @$state.go 'app.login'
+        @$state.go 'login'
 
 angular.module('letter-job').service 'AuthorizationService', ($rootScope, $state, UsersService) ->
   new AuthorizationService $rootScope, $state, UsersService

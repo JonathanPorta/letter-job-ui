@@ -23,67 +23,68 @@ module.exports = (grunt)->
   grunt.initConfig
     bower:
       dev:
-        dest: "build/vendor"
+        dest: 'build/vendor'
 
     rename:
       vendor_js: # Angular needs to be loaded before dependant libs. Renaming helps to not include it twice.
-        files: "build/angular.js": "build/vendor/angular.js"
+        files: 'build/angular.js': 'build/vendor/angular.js'
       dist: # Move the complete build files to a dist directory for easier and less messy packaging later
         files: [
-          "build/dist/javascripts/application.js": "build/application.js"
-          "build/dist/javascripts/vendor.js": "build/vendor.js"
-          "build/dist/stylesheets/application.css": "build/application.css"
-          "build/dist/stylesheets/vendor.css": "build/vendor.css"
-          "build/dist/index.html": "build/index.html"
+          'build/dist/javascripts/application.js': 'build/application.js'
+          'build/dist/javascripts/vendor.js': 'build/vendor.js'
+          'build/dist/stylesheets/application.css': 'build/application.css'
+          'build/dist/stylesheets/vendor.css': 'build/vendor.css'
+          'build/dist/index.html': 'build/index.html'
         ]
 
     concat:
       vendor_js:
-        files: "build/vendor.js": ["build/angular.js", "build/vendor/*.js", "build/vendor/**/*.js"]
+        files: 'build/vendor.js': ['build/angular.js', 'build/vendor/*.js', 'build/vendor/**/*.js']
       vendor_css:
-        files: "build/vendor.css": ["build/vendor/*.css"]
+        files: 'build/vendor.css': ['build/vendor/*.css']
       js:
-        files: "build/application.js": [
-          "build/application.js", "build/application.coffee.js", "build/templates.js"
+        files: 'build/application.js': [
+          'build/application.js', 'build/application.coffee.js', 'build/templates.js'
         ]
 
     browserify:
       dev:
-        src: ["app/index.js"]
-        dest: "build/application.js"
+        src: ['app/index.js']
+        dest: 'build/application.js'
       coffee:
-        src: ["app/*.coffee", "app/**/*.coffee"]
-        dest: "build/application.coffee.js"
+        src: ['app/*.coffee', 'app/**/*.coffee']
+        dest: 'build/application.coffee.js'
         options:
           transform: ['coffeeify']
 
     jade:
       index:
-        files: "build/index.html": "app/index.jade"
+        files: 'build/index.html': 'app/index.jade'
 
     ngjade:
       templates:
         options:
-          moduleName:"letter-job"
+          moduleName:'letter-job'
           processName:jadeTemplateId
         files:[{
           expand: false
           src: [
-            "app/modules/**/template.jade"
-            "app/modules/**/directives/*.jade"
-            "app/partials/**/*.jade"
+            'app/modules/**/template.jade'
+            'app/modules/**/directives/*.jade'
+            'app/partials/**/*.jade'
           ]
-          dest: "build/templates.js"
+          dest: 'build/templates.js'
         }]
 
     less:
       dev:
         files:
-          "build/application.css": ["app/index.less", "app/**/*.less"]
+          'build/application.css': ['app/index.less', 'app/**/*.less']
 
     watch:
-      scripts:
-        files: [ # Todo: Figure out how to use "file.[ext|ext|etc]"
+      # watch our source files and trigger the build processes
+      src:
+        files: [ # Todo: Figure out how to use 'file.[ext|ext|etc]'
           'Gruntfile.coffee' # Oh! How metta!
           'app/**/*.jade'
           'app/**/*.js'
@@ -94,10 +95,16 @@ module.exports = (grunt)->
           'app/index.jade'
           'app/index.js'
         ]
-        tasks: ["build"]
+        tasks: ['build']
+
+      # watch our compiled files and live reload in order to ensure all tasks ran
+      # before firing the livereload
+      dist:
+        files: ['build/dist/**/*']
         options:
           reload: true
           livereload: true
+          livereloadOnError: false
 
     notify_hooks:
       options:
@@ -116,20 +123,20 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-notify'
 
-  grunt.registerTask "build", [
-    "bower:dev"
-    "rename:vendor_js"
-    "concat:vendor_js"
-    "concat:vendor_css"
-    "browserify:dev"
-    "browserify:coffee"
-    "jade:index"
-    "ngjade:templates"
-    "less:dev"
-    "concat:js"
-    "rename:dist"
-    "notify_hooks"
+  grunt.registerTask 'build', [
+    'bower:dev'
+    'rename:vendor_js'
+    'concat:vendor_js'
+    'concat:vendor_css'
+    'browserify:dev'
+    'browserify:coffee'
+    'jade:index'
+    'ngjade:templates'
+    'less:dev'
+    'concat:js'
+    'rename:dist'
+    'notify_hooks'
   ]
 
-  grunt.registerTask "default", ["build"]
+  grunt.registerTask 'default', ['build']
   grunt.task.run 'notify_hooks'

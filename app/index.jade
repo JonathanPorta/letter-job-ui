@@ -18,15 +18,18 @@ head
     }
 
   body(ng-app='letter-job', ng-cloak='')
-    .container
-      div(layout="row", layout-align="center center")
+    .md-content
+      section
         div(ui-view='') Loading...
 
-    hr
-    pre
-      |$state = {{$state.current.name}}
-      |$stateParams = {{$stateParams}}
-      |$state full url = {{ $state.$current.url.source }}
+      section
+        md-toolbar.md-warn
+          .md-toolbar-tools
+            h2 Debug Data
+        md-content(layout-padding)
+          p $state = {{$state.current.name}}
+          p $stateParams = {{$stateParams}}
+          p $state full url = {{ $state.$current.url.source }}
 
     // Leave at end of body
     script(src='/app/javascripts/vendor.js')

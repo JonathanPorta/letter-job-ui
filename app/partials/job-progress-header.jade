@@ -1,8 +1,14 @@
-md-toolbar.md-menu-toolbar
-  div(layout='row')
-    md-toolbar-filler(layout='', layout-align='center center')
-      //- md-icon(md-svg-icon='call:chat')
-    div
-      h2.md-toolbar-tools {{ jobProgress }}%
-
-ui-view
+//- .job-progress-header
+//-   md-toolbar.md-menu-toolbar
+//-     .md-toolbar-tools
+//-       h2 {{ jobProgress }}% <small>({{ tasksLeft }} remaining)</small>
+//-     md-progress-linear(md-mode='determinate', value='{{ jobProgress }}')
+md-toolbar
+  .md-toolbar-tools
+    h2 Job name goes here
+    
+md-content
+  md-tabs.md-primary(md-align-tabs="top", md-dynamic-height, md-swipe-content='true')
+    md-tab(ng-repeat='task in tasks', md-on-select="$state.go('app.job.task', {task_id: task.id, job_id: job.id})", label="{{$index + 1}}. {{ task.get('title') }}")
+      md-content
+        ui-view Loading...
